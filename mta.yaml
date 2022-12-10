@@ -1,0 +1,40 @@
+_schema-version: "3.2"
+ID: ui-without-approuter
+version: 0.0.1
+
+modules:
+  - name: ui-without-approuter-ui-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: ui-without-approuter-app-repo
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: gizemcik2/qwe
+      requires:
+        - artifacts:
+            - migrauiexcelimportui.zip
+          name: ui-approuter
+          target-path:  gizemcik2/qwe/
+  - name: ui-approuter
+    type: html5
+    path: ui-without-approuter
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - 'npm run gizem:build'
+      supported-platforms: []
+resources:
+  - name: ui-without-approuter-app-repo
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host 
+  - name: ui-without-approuter-app-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
